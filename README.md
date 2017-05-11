@@ -1,6 +1,6 @@
-Music Polling App
+#Music Polling App
 
 Starter project based off https://github.com/AngularClass/angular-starter
 
-# start the server
+## start the server
 npm start

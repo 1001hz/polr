@@ -29,12 +29,17 @@ import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 
+import { AUTH_PROVIDERS } from './services/auth/auth.service';
+import { LOGIN_GUARD_PROVIDERS } from './guards/login.guard';
+
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
+  ...AUTH_PROVIDERS,
+  ...LOGIN_GUARD_PROVIDERS,
   AppState
 ];
 

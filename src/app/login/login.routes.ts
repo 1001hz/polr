@@ -7,5 +7,5 @@ export const ROUTES = [
   { path: '', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent }
+  { path: 'reset-password/:key', component: ResetPasswordComponent }
 ];
