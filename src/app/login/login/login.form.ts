@@ -13,9 +13,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
       </div>
 
       <div class="form__group form__group--input">
-        <label for="username">Password</label>
-        <input type="text" id="username" [formControl]="loginForm.controls['username']">
-        <span *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">Required field</span>
+        <label for="password">Password</label>
+        <input type="password" id="password" [formControl]="loginForm.controls['password']">
+        <span *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">Required field</span>
       </div>
 
       <div class="form__group form__group--submit">
@@ -31,7 +31,8 @@ export class LoginForm {
 
   constructor(fb: FormBuilder) {
     this.loginForm = fb.group({
-      'username': ['', Validators.required]
+      'username': ['', Validators.required],
+      'password': ['', Validators.required]
     });
   }
 

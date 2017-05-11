@@ -4,7 +4,7 @@ import { LoginForm } from './login.form';
 
 @Component({
   template: `
-    <div>Login</div>
+    <h1>Login</h1>
     <login-form></login-form>
   `
 })

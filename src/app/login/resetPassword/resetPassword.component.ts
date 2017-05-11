@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ResetPasswordForm } from './resetPassword.form';
 
 @Component({
   template: `
-  Reset Password
+  <h1>Reset Password</h1>
+  <reset-password-form></reset-password-form>
   `
 })
 export class ResetPasswordComponent {
