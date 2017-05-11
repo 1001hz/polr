@@ -1,4 +1,4 @@
-import { LoginComponent } from './login.component';
+import { LoginComponent } from './login/login.component.ts';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgotPassword/forgotPassword.component';
 import { ResetPasswordComponent } from './resetPassword/resetPassword.component';
