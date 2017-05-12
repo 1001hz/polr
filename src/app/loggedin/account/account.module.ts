@@ -7,6 +7,7 @@ import { ManageAccountComponent } from './manage/manageAccount.component';
 import { AccountDetailsForm } from './manage/accountDetails.form';
 import { ChangePasswordForm } from './manage/changePassword.form';
 import { ManagePasswordComponent } from './manage/managePassword.component';
+import { AccountAvatarComponent } from './manage/accountAvatar.component';
 
 import { ROUTES } from './account.routes';
 
@@ -15,7 +16,8 @@ import { ROUTES } from './account.routes';
     ManageAccountComponent,
     AccountDetailsForm,
     ChangePasswordForm,
-    ManagePasswordComponent
+    ManagePasswordComponent,
+    AccountAvatarComponent
   ],
   imports: [
     FormsModule,

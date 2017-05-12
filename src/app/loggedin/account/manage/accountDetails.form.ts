@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../../services';
+import { User } from '../../../models/user.model';
+import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
+import { UserService } from '../../../services';
 
 @Component({
   selector: 'account-details-form',
@@ -34,16 +38,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AccountDetailsForm {
 
   accountDetailsForm: FormGroup;
+  private _user: User;
 
-  constructor(fb: FormBuilder) {
-    this.accountDetailsForm = fb.group({
-      'username': ['', Validators.required],
-      'fname': ['', Validators.required],
-      'lname': ['', Validators.required]
+  constructor(
+    fb: FormBuilder,
+    private authService: AuthService,
+    private userService: UserService
+    ) {
+
+    // get logged in user details
+    this.authService.user.subscribe(user => {
+
+      // set local user var
+      this._user = user;
+
+      // initialise the form
+      this.accountDetailsForm = fb.group({
+        'username': [user.username, Validators.required],
+        'fname': [user.fname, Validators.required],
+        'lname': [user.lname, Validators.required]
+      });
+
     });
   }
 
   onSubmit(value: any) {
-    console.log(value);
+    // update local user var
+    this._user.setUsername(value.username);
+    this._user.setFname(value.fname);
+    this._user.setLname(value.lname);
+
+    // service will handle updating server / app state
+    this.userService.update(this._user);
   }
 }

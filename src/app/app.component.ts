@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 
 import { AuthService } from './services';
+import { User } from './models/user.model';
+import { Observable } from 'rxjs/Rx';
 
 /**
  * App Component
@@ -38,12 +40,12 @@ import { AuthService } from './services';
       </a>
       <a [routerLink]=" ['./app'] "
         routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}"
-        *ngIf="authService.isLoggedIn()">
+        *ngIf="(user | async)?.id">
         Home
       </a>
       <a [routerLink]=" ['./app/account'] "
         routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}"
-        *ngIf="authService.isLoggedIn()">
+        *ngIf="(user | async)?.id">
         Account
       </a>
     </nav>
@@ -59,6 +61,10 @@ import { AuthService } from './services';
 })
 export class AppComponent {
 
-  constructor(private authService: AuthService) {}
+  public user: Observable<User>;
+
+  constructor(private authService: AuthService) {
+    this.user = this.authService.user;
+  }
 
 }

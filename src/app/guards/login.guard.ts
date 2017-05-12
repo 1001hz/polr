@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { AuthService } from '../services';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class LoginGuard implements CanActivate {
@@ -9,8 +10,12 @@ export class LoginGuard implements CanActivate {
 
   }
 
-  canActivate(): boolean {
-      return this.authService.isLoggedIn();
+  canActivate(): Observable<boolean> {
+      return this.authService.user.map( user => {
+        if(user.id) {
+          return true;
+        }
+      }).first();
   }
 }
 
