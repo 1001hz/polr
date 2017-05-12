@@ -6,6 +6,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
+import { AuthService } from './services';
+
 /**
  * App Component
  * Top Level Component
@@ -34,9 +36,15 @@ import {
         routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
         Reset Password
       </a>
-      <a [routerLink]=" ['./home'] "
-        routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+      <a [routerLink]=" ['./app'] "
+        routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}"
+        *ngIf="authService.isLoggedIn()">
         Home
+      </a>
+      <a [routerLink]=" ['./app/account'] "
+        routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}"
+        *ngIf="authService.isLoggedIn()">
+        Account
       </a>
     </nav>
 
@@ -51,8 +59,6 @@ import {
 })
 export class AppComponent {
 
-  constructor(
-
-  ) {}
+  constructor(private authService: AuthService) {}
 
 }

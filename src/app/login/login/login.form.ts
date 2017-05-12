@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'login-form',
@@ -29,14 +30,14 @@ export class LoginForm {
 
   loginForm: FormGroup;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private authService: AuthService) {
     this.loginForm = fb.group({
       'username': ['', Validators.required],
       'password': ['', Validators.required]
     });
   }
 
-  onSubmit(value: string) {
-    console.log('Form value', value);
+  onSubmit(value: any) {
+    this.authService.login(value.username, value.password);
   }
 }
