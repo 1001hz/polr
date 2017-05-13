@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { SET_USER, RESET_USER } from '../reducers/user.reducer.ts';
 import { User } from '../models/user.model';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
+import { ApiService } from './api.service';
 
 interface AppState {
   user: User;
@@ -13,7 +14,10 @@ export class AuthService {
 
   public user: Subject<User> = new BehaviorSubject<User>(new User());
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private apiService: ApiService
+  ) {
     store.select('user').subscribe( (u:User) => {
       this.user.next(u);
     } );
@@ -22,20 +26,57 @@ export class AuthService {
   login(username, password) {
 
     // talk to server
+    var credentials = {
+      username: username,
+      password: password
+    };
 
-    // create user object
-    let user = new User();
-    user.id = '1';
-    user.username = 'test username';
-    user.fname = 'test first name';
-    user.lname = 'test last name';
+    let authenticate$ = this.apiService.apiPost('/api/login', credentials, false)
+      .map((response) => {
 
-    // save to app state
-    this.store.dispatch({ type: SET_USER, payload: user });
+        // create user object
+        let user = new User();
+        user.makeFromApiData(response);
+
+        // save to app state
+        this.store.dispatch({ type: SET_USER, payload: user });
+
+      })
+      .share();
+
+    return authenticate$;
   }
 
   logout(): any {
-    this.store.dispatch({ type: RESET_USER });
+
+    return this.apiService.apiGet('/api/user/logout', true)
+      .map((response) => {
+
+        this.store.dispatch({ type: RESET_USER });
+
+      })
+      .share();
+
+
+  }
+
+  signup(user): any {
+
+    let signup$ = this.apiService.apiPost('/api/open/user', user, false)
+      .map((response) => {
+
+        // create user object
+        let user = new User();
+        user.makeFromApiData(response);
+
+        // save to app state
+        this.store.dispatch({ type: SET_USER, payload: user });
+
+      })
+      .share();
+
+    return signup$;
+
   }
 
 }

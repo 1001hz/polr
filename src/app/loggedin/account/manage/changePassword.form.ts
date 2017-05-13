@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from '../../../services';
 
 @Component({
   selector: 'change-password-form',
@@ -28,14 +30,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         <button type="submit" [disabled]="!changePasswordForm.valid">Submit</button>
       </div>
 
+      <div *ngIf="serverError" class="form__group form__group--server-error">
+        {{ serverError }}
+      </div>
+
     </form>
   `
 })
 export class ChangePasswordForm {
 
   changePasswordForm: FormGroup;
+  public serverError: string;
 
-  constructor(fb: FormBuilder) {
+  constructor(
+    fb: FormBuilder,
+    private router: Router,
+    private userService: UserService
+  ) {
     this.changePasswordForm = fb.group({
       'current': ['', Validators.required],
       'new': ['', Validators.required],
@@ -44,6 +55,11 @@ export class ChangePasswordForm {
   }
 
   onSubmit(value: any) {
-    console.log(value);
+    this.serverError = null;
+    this.userService.changePassword(value.current, value.new)
+    .subscribe(
+      ( data ) => this.router.navigate(['app/account']),
+      ( error ) => this.serverError = error
+    );
   }
 }

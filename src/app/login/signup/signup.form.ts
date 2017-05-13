@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'signup-form',
@@ -29,14 +31,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         <button type="submit" [disabled]="!signupForm.valid">Submit</button>
       </div>
 
+      <div *ngIf="serverError" class="form__group form__group--server-error">
+        {{ serverError }}
+      </div>
+
     </form>
   `
 })
 export class SignupForm {
 
   signupForm: FormGroup;
+  public serverError: string;
 
-  constructor(fb: FormBuilder) {
+  constructor(
+    fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.signupForm = fb.group({
       'username': ['', Validators.required],
       'password': ['', Validators.required],
@@ -44,7 +55,19 @@ export class SignupForm {
     });
   }
 
-  onSubmit(value: string) {
-    console.log('Form value', value);
+  onSubmit(value: any) {
+    this.serverError = null;
+
+    this
+      .authService
+      .signup({username: value.username, password: value.password})
+      .subscribe(
+        data => {
+          this.router.navigate(['app']);
+        },
+        err => {
+          this.serverError = err;
+        }
+    );
   }
 }

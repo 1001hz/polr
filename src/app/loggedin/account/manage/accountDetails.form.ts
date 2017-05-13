@@ -69,6 +69,10 @@ export class AccountDetailsForm {
     this._user.setLname(value.lname);
 
     // service will handle updating server / app state
-    this.userService.update(this._user);
+    this.userService.update(this._user)
+    .subscribe(
+      data => {},
+      error => { console.log(error) }
+    );
   }
 }
