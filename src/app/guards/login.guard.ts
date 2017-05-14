@@ -12,7 +12,7 @@ export class LoginGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
       return this.authService.user.map( user => {
-        if(user.id) {
+        if(user._id) {
           return true;
         }
       }).first();

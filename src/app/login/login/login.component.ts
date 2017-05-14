@@ -8,11 +8,11 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 @Component({
   template: `
     <h1>Login</h1>
-    <div *ngIf="!(user | async)?.id">
+    <div *ngIf="!(user | async)?._id">
       <login-form></login-form>
     </div>
-    <div *ngIf="(user | async)?.id">
-      <p>You are logged in as {{ (user | async)?.username }}</p>
+    <div *ngIf="(user | async)?._id">
+      <p>You are logged in as {{ (user | async)?.email }}</p>
       <a (click)="logout()">Logout</a>
     </div>
   `

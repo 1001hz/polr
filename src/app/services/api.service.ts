@@ -23,7 +23,6 @@ export class ApiService {
 
     // get user for API token parameter
     store.select('user').subscribe( (u:User) => {
-      console.log(u);
       this.token = u.token
     } );
   }

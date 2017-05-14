@@ -9,9 +9,9 @@ import { AuthService } from '../../services';
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)">
 
       <div class="form__group form__group--input">
-        <label for="username">Username</label>
-        <input type="text" id="username" [formControl]="signupForm.controls['username']">
-        <span *ngIf="signupForm.controls['username'].hasError('required') && signupForm.controls['username'].touched">Required field</span>
+        <label for="email">email</label>
+        <input type="text" id="email" [formControl]="signupForm.controls['email']">
+        <span *ngIf="signupForm.controls['email'].hasError('required') && signupForm.controls['email'].touched">Required field</span>
       </div>
 
       <div class="form__group form__group--input">
@@ -49,7 +49,7 @@ export class SignupForm {
     private router: Router
   ) {
     this.signupForm = fb.group({
-      'username': ['', Validators.required],
+      'email': ['', Validators.required],
       'password': ['', Validators.required],
       'confirm': ['', Validators.required]
     });
@@ -60,7 +60,7 @@ export class SignupForm {
 
     this
       .authService
-      .signup({username: value.username, password: value.password})
+      .signup({email: value.email, password: value.password})
       .subscribe(
         data => {
           this.router.navigate(['app']);

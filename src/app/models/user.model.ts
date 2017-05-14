@@ -1,16 +1,11 @@
 export class User {
 
-  public id: string;
+  public _id: string;
   public token: string;
+  public lastLogin: string;
   public fname: string;
   public lname: string;
-  public username: string;
   public email: string;
-  public avatar: string;
-
-  setUsername(val) {
-    this.username = val;
-  }
 
   setFname(val) {
     this.fname = val;
@@ -20,15 +15,12 @@ export class User {
     this.lname = val;
   }
 
-  setToken(val) {
-    this.token = val;
-  }
-
   makeFromApiData(response) {
-    this.id = response._id;
-    this.username = response.username;
+    this._id = response._id;
+    this.email = response.email;
     this.fname = response.fname ? response.fname : '';
     this.lname = response.lname ? response.lname : '';
     this.token = response.token ? response.token : '';
+    this.lastLogin = response.lastLogin ? response.lastLogin : '';
   }
 }

@@ -11,9 +11,8 @@ import { UserService } from '../../../services';
   <form [formGroup]="accountDetailsForm" (ngSubmit)="onSubmit(accountDetailsForm.value)">
 
       <div class="form__group form__group--input">
-        <label for="username">Username</label>
-        <input type="text" id="username" [formControl]="accountDetailsForm.controls['username']">
-        <span *ngIf="accountDetailsForm.controls['username'].hasError('required') && accountDetailsForm.controls['username'].touched">Required field</span>
+        <label for="email">email</label>
+        <input type="text" id="email" [formControl]="accountDetailsForm.controls['email']">
       </div>
 
       <div class="form__group form__group--input">
@@ -23,7 +22,7 @@ import { UserService } from '../../../services';
       </div>
 
       <div class="form__group form__group--input">
-        <label for="username">Last Name</label>
+        <label for="email">Last Name</label>
         <input type="text" id="lname" [formControl]="accountDetailsForm.controls['lname']">
         <span *ngIf="accountDetailsForm.controls['lname'].hasError('required') && accountDetailsForm.controls['lname'].touched">Required field</span>
       </div>
@@ -54,7 +53,7 @@ export class AccountDetailsForm {
 
       // initialise the form
       this.accountDetailsForm = fb.group({
-        'username': [user.username, Validators.required],
+        'email': [{value: user.email, disabled: true}, Validators.required],
         'fname': [user.fname, Validators.required],
         'lname': [user.lname, Validators.required]
       });
@@ -64,7 +63,6 @@ export class AccountDetailsForm {
 
   onSubmit(value: any) {
     // update local user var
-    this._user.setUsername(value.username);
     this._user.setFname(value.fname);
     this._user.setLname(value.lname);
 

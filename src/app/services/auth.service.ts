@@ -23,6 +23,21 @@ export class AuthService {
     } );
   }
 
+  tokenLogin(token) {
+
+    return this.apiService.apiPost('/api/tokenlogin', {"token": token}, false)
+      .map((response) => {
+
+        // create user object
+        let user = new User();
+        user.makeFromApiData(response);
+
+        // save to app state
+        this.store.dispatch({ type: SET_USER, payload: user });
+      })
+      .share();
+  }
+
   login(username, password) {
 
     // talk to server
@@ -31,7 +46,7 @@ export class AuthService {
       password: password
     };
 
-    let authenticate$ = this.apiService.apiPost('/api/login', credentials, false)
+    return this.apiService.apiPost('/api/login', credentials, false)
       .map((response) => {
 
         // create user object
@@ -41,28 +56,26 @@ export class AuthService {
         // save to app state
         this.store.dispatch({ type: SET_USER, payload: user });
 
+        localStorage.setItem("polrtoken", user.token);
       })
       .share();
-
-    return authenticate$;
   }
 
   logout(): any {
 
     return this.apiService.apiGet('/api/user/logout', true)
       .map((response) => {
-
         this.store.dispatch({ type: RESET_USER });
 
+        localStorage.removeItem("polrtoken");
       })
       .share();
-
-
   }
 
-  signup(user): any {
+  signup(userCredentials): any {
 
-    let signup$ = this.apiService.apiPost('/api/open/user', user, false)
+    return this.apiService
+      .apiPost('/api/open/user', userCredentials, false)
       .map((response) => {
 
         // create user object
@@ -72,11 +85,9 @@ export class AuthService {
         // save to app state
         this.store.dispatch({ type: SET_USER, payload: user });
 
+        localStorage.setItem("polrtoken", user.token);
       })
       .share();
-
-    return signup$;
-
   }
 
 }

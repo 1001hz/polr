@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services';
@@ -9,9 +9,9 @@ import { AuthService } from '../../services';
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
 
       <div class="form__group form__group--input">
-        <label for="username">Username</label>
-        <input type="text" id="username" [formControl]="loginForm.controls['username']">
-        <span *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">Required field</span>
+        <label for="email">email</label>
+        <input type="text" id="email" [formControl]="loginForm.controls['email']">
+        <span *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">Required field</span>
       </div>
 
       <div class="form__group form__group--input">
@@ -31,10 +31,11 @@ import { AuthService } from '../../services';
     </form>
   `
 })
-export class LoginForm {
+export class LoginForm implements OnDestroy {
 
   loginForm: FormGroup;
   public serverError: string;
+  private loginSubscription$;
 
   constructor(
     fb: FormBuilder,
@@ -42,17 +43,21 @@ export class LoginForm {
     private authService: AuthService
   ) {
     this.loginForm = fb.group({
-      'username': ['', Validators.required],
+      'email': ['', Validators.required],
       'password': ['', Validators.required]
     });
   }
 
   onSubmit(value: any) {
     this.serverError = null;
-    this.authService.login(value.username, value.password)
+    this.loginSubscription$ = this.authService.login(value.email, value.password)
       .subscribe(
       ( data ) => this.router.navigate(['app']),
       ( error ) => this.serverError = error
     );
+  }
+
+  ngOnDestroy() {
+    this.loginSubscription$.unsubscribe();
   }
 }

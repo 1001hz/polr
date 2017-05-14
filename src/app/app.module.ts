@@ -23,12 +23,14 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { NoContentComponent } from './no-content';
+import { MessageComponent } from './components/message.component';
 
 import { ALL_SERVICES } from './services';
 import { LOGIN_GUARD_PROVIDERS } from './guards/login.guard';
 
 import { StoreModule } from "@ngrx/store";
 import { userReducer } from './reducers/user.reducer';
+import { messageReducer } from './reducers/message.reducer';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -40,7 +42,8 @@ const APP_PROVIDERS = [
 ];
 
 let rootReducer = {
-  user: userReducer
+  user: userReducer,
+  messages: messageReducer
 };
 
 /**
@@ -50,7 +53,8 @@ let rootReducer = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    NoContentComponent
+    NoContentComponent,
+    MessageComponent
   ],
   /**
    * Import Angular's modules.
