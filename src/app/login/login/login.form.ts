@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services';
@@ -31,11 +31,10 @@ import { AuthService } from '../../services';
     </form>
   `
 })
-export class LoginForm implements OnDestroy {
+export class LoginForm {
 
   loginForm: FormGroup;
   public serverError: string;
-  private loginSubscription$;
 
   constructor(
     fb: FormBuilder,
@@ -50,14 +49,10 @@ export class LoginForm implements OnDestroy {
 
   onSubmit(value: any) {
     this.serverError = null;
-    this.loginSubscription$ = this.authService.login(value.email, value.password)
+    this.authService.login(value.email, value.password)
       .subscribe(
       ( data ) => this.router.navigate(['app']),
       ( error ) => this.serverError = error
     );
-  }
-
-  ngOnDestroy() {
-    this.loginSubscription$.unsubscribe();
   }
 }

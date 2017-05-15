@@ -80,6 +80,17 @@ export class ApiService {
       .map((res:Response) => res.json())
   }
 
+  apiPostFile(endpoint, formData:FormData) {
+    let headers = new Headers();
+    //headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
+    headers.append('X-Auth-Token', this.token);
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.apiUrl + endpoint, formData, options)
+      .map(res => res.json())
+      .catch(error => Observable.throw(error));
+  }
+
 }
 
 export const API_PROVIDERS: Array<any> = [

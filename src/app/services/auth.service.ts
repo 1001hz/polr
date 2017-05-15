@@ -4,6 +4,7 @@ import { SET_USER, RESET_USER } from '../reducers/user.reducer.ts';
 import { User } from '../models/user.model';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import { ApiService } from './api.service';
+import { MessageService } from './message.service';
 
 interface AppState {
   user: User;
@@ -16,7 +17,8 @@ export class AuthService {
 
   constructor(
     private store: Store<AppState>,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private messageService: MessageService
   ) {
     store.select('user').subscribe( (u:User) => {
       this.user.next(u);
@@ -25,7 +27,7 @@ export class AuthService {
 
   tokenLogin(token) {
 
-    return this.apiService.apiPost('/api/tokenlogin', {"token": token}, false)
+    return this.apiService.apiPost('/api/token-login', {"token": token}, false)
       .map((response) => {
 
         // create user object
@@ -68,6 +70,8 @@ export class AuthService {
         this.store.dispatch({ type: RESET_USER });
 
         localStorage.removeItem("polrtoken");
+
+        this.messageService.success("Successfully logged out");
       })
       .share();
   }
@@ -86,6 +90,24 @@ export class AuthService {
         this.store.dispatch({ type: SET_USER, payload: user });
 
         localStorage.setItem("polrtoken", user.token);
+      })
+      .share();
+  }
+
+  forgotPassword(email): any {
+    return this.apiService
+      .apiPost('/api/forgot-password', {email: email}, false)
+      .map((response) => {
+        this.messageService.success(response.message);
+      })
+      .share();
+  }
+
+  resetPassword(key, email, password): any {
+    return this.apiService
+      .apiPost('/api/reset-password', {token: key, email: email, password: password}, false)
+      .map((response) => {
+        this.messageService.success(response.message);
       })
       .share();
   }

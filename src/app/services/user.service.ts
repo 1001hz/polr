@@ -47,6 +47,22 @@ export class UserService {
       .share();
 
   }
+
+  updateAvatar(formData:FormData) {
+    return this.apiService.apiPostFile('/api/user/avatar', formData)
+      .map((response) => {
+
+        // create user object
+        let user = new User();
+        user.makeFromApiData(response);
+
+        // save to app state
+        this.store.dispatch({ type: UPDATE_USER, payload: user });
+
+        this.messageService.success("User image saved.");
+      })
+      .share();
+  }
 }
 
 export const USER_PROVIDERS: Array<any> = [

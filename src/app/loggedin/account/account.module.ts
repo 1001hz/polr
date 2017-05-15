@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { ManageAccountComponent } from './manage/manageAccount.component';
 import { AccountDetailsForm } from './manage/accountDetails.form';
@@ -17,7 +18,8 @@ import { ROUTES } from './account.routes';
     AccountDetailsForm,
     ChangePasswordForm,
     ManagePasswordComponent,
-    AccountAvatarComponent
+    AccountAvatarComponent,
+    FileSelectDirective
   ],
   imports: [
     FormsModule,
