@@ -10,6 +10,12 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
     <h1>Login</h1>
     <div *ngIf="!(user | async)?._id">
       <login-form></login-form>
+      <div>
+        <a [routerLink]=" ['./forgot-password'] "
+        routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+        Forgot Password
+      </a>
+      </div>
     </div>
     <div *ngIf="(user | async)?._id">
       <p>You are logged in as {{ (user | async)?.email }}</p>

@@ -25,6 +25,7 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { NoContentComponent } from './no-content';
 import { MessageComponent } from './components/message.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 
 import { ALL_SERVICES } from './services';
 import { LOGIN_GUARD_PROVIDERS } from './guards/login.guard';
@@ -32,6 +33,7 @@ import { LOGIN_GUARD_PROVIDERS } from './guards/login.guard';
 import { StoreModule } from "@ngrx/store";
 import { userReducer } from './reducers/user.reducer';
 import { messageReducer } from './reducers/message.reducer';
+import { leagueReducer } from './reducers/league.reducer';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -44,7 +46,8 @@ const APP_PROVIDERS = [
 
 let rootReducer = {
   user: userReducer,
-  messages: messageReducer
+  messages: messageReducer,
+  leagues: leagueReducer
 };
 
 /**
@@ -55,7 +58,8 @@ let rootReducer = {
   declarations: [
     AppComponent,
     NoContentComponent,
-    MessageComponent
+    MessageComponent,
+    NavMenuComponent
   ],
   /**
    * Import Angular's modules.
